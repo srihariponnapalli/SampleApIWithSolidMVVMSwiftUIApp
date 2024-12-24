@@ -11,7 +11,7 @@ import SwiftUI
 struct SampleApIWithSolidMVVMSwiftUIAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CatListView()
         }
     }
 }

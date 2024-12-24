@@ -1,0 +1,9 @@
+//
+//  CatListView.swift
+//  SampleApIWithSolidMVVMSwiftUIApp
+//
+//  Created by user260588 on 12/24/24.
+//
+
+
+import SwiftUIstruct CatListView: View {    @StateObject private var viewModel = CatViewModel()        var body: some View {        NavigationView {            VStack {                if viewModel.isLoading {                    ProgressView("Loading...")                } else if let errorMessage = viewModel.errorMessage {                    Text(errorMessage)                        .foregroundColor(.red)                        .padding()                } else {                    List(viewModel.cats) { cat in                        AsyncImage(url: URL(string: cat.url)) { phase in                            switch phase {                            case .empty:                                ProgressView()                            case .success(let image):                                image.resizable().scaledToFit()                                    .frame(width: 100, height: 100)                            case .failure:                                Image(systemName: "xmark.circle.fill")                                    .resizable()                                    .frame(width: 100, height: 100)                            @unknown default:                                EmptyView()                            }                        }                    }                }            }            .onAppear {                viewModel.fetchCatImages()            }            .navigationTitle("Cat Images")        }    }}struct ContentView_Previews: PreviewProvider {    static var previews: some View {        CatListView()    }}
